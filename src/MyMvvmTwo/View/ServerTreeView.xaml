@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="MyMvvmTwo.View.ServerTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyMvvmTwo.View"
+             xmlns:serverTree="clr-namespace:MyMvvmTwo.ViewModel.ServerTree"
+             mc:Ignorable="d" 
+             MinWidth="150"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.BorderBrush>CadetBlue</UserControl.BorderBrush>
+    <UserControl.BorderThickness>1</UserControl.BorderThickness>
+
+    <DockPanel>
+        <Border Margin="4" BorderBrush="CadetBlue" BorderThickness="1" DockPanel.Dock="Top">
+            <TextBlock Text="Active connections:" TextAlignment="Center" Foreground="White" Height="Auto" Background="CadetBlue" />
+        </Border>
+
+        <TreeView HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch" 
+                      Margin="4"
+                      ItemsSource="{Binding Servers}" 
+                      DockPanel.Dock="Bottom"
+                      MinWidth="30"
+                      MinHeight="20">
+            <TreeView.BorderThickness>0</TreeView.BorderThickness>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type serverTree:ServerViewModel}"
+                                              ItemsSource="{Binding Children}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type serverTree:DatabaseViewModel}"
+                                          ItemsSource="{Binding Children}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type serverTree:TableViewModel}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+    </DockPanel>
+
+</UserControl>

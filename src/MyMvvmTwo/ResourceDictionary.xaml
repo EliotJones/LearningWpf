@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:MyMvvmTwo.ViewModel"
+                    xmlns:view="clr-namespace:MyMvvmTwo.View"
+                    xmlns:menu="clr-namespace:MyMvvmTwo.ViewModel.Menu"
+                    xmlns:dialog="clr-namespace:MyMvvmTwo.ViewModel.Dialog"
+                    xmlns:viewDialog="clr-namespace:MyMvvmTwo.View.Dialog"
+                    xmlns:converters="clr-namespace:MyMvvmTwo.Converters">
+    <DataTemplate DataType="{x:Type menu:MenuViewModel}">
+        <view:MenuView></view:MenuView>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ServerTreeViewModel}">
+        <view:ServerTreeView></view:ServerTreeView>
+    </DataTemplate>
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="Header" Value="{Binding Path=Text}"/>
+        <Setter Property="Command" Value="{Binding Path=Command}"/>
+    </Style>
+    <HierarchicalDataTemplate 
+        DataType="{x:Type menu:MenuItemViewModel}"
+        ItemsSource="{Binding Path=ChildMenuItems}">
+    </HierarchicalDataTemplate>
+    <DataTemplate DataType="{x:Type dialog:ConnectionDialogViewModel }">
+        <viewDialog:ConnectionDialogView></viewDialog:ConnectionDialogView>
+    </DataTemplate>
+    <converters:InvertBooleanConverter x:Key="InvertBooleanConverter"></converters:InvertBooleanConverter>
+</ResourceDictionary>
